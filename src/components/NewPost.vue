@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TimeLinePost } from '@/posts'
+import type { Post, TimeLinePost } from '@/posts'
 import { useRouter } from 'vue-router'
 import { onMounted, ref, watch } from 'vue'
 import { marked } from 'marked'
@@ -8,8 +8,12 @@ import debounce from 'lodash/debounce'
 import { usePostStore } from '@/stores/posts'
 
 const route = useRouter()
+
+const emit = defineEmits<{
+  (e: 'savepost', payload: Post): void
+}>()
 const props = defineProps<{
-  post: TimeLinePost
+  post: TimeLinePost | Post
 }>()
 const postStore = usePostStore()
 
@@ -69,14 +73,15 @@ function handleInput() {
   content.value = contentEditable.value?.innerText
 }
 async function handleClick() {
-  const post: TimeLinePost = {
+  const post: Post = {
     ...props.post,
+    created:
+      typeof props.post.created == 'string' ? props.post.created : props.post.created.toISO(),
     title: title.value,
     markup: content.value,
     html: html.value
   }
-  await postStore.savePost(post)
-  route.push('/')
+  emit('savepost', post)
 }
 </script>
 <template>

@@ -56,6 +56,15 @@ app.post<{}, {}, Post>('/post', (req, res) => {
   res.json(post)
 })
 
+app.put<{}, {}, Post>('/post', (req, res) => {
+  const index = postList.findIndex((item) => item.id === req.body.id)
+  if (index === -1) {
+    res.status(404).end()
+  }
+  postList[index] = { ...postList[index], ...req.body }
+  res.json(postList[index])
+})
+
 app.post<{}, {}, User>('/user', (req, res) => {
   const user = { ...req.body, id: (Math.random() * 100000).toFixed() }
   allUser.push(user)

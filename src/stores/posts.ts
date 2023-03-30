@@ -38,10 +38,20 @@ export const usePostStore = defineStore('post', {
       this.ids = ids
       this.posts = posts
     },
-    async savePost(post: TimeLinePost) {
-      const body = JSON.stringify({ ...post, created: post.created.toISO() })
+    async savePost(post: Post) {
+      const body = JSON.stringify({ ...post })
       await window.fetch('http://localhost:8000/post', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body
+      })
+    },
+    async editPost(post: Post) {
+      const body = JSON.stringify({ ...post })
+      await window.fetch('http://localhost:8000/post', {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
