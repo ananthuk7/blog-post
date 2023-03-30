@@ -11,14 +11,29 @@ export const userStore = defineStore('user', {
     currentUserId: undefined
   }),
   actions: {
-    async authentication() {
-      const result = await window.fetch('http://localhost:8000/current-user')
-      const userId = await result.json()
-      this.currentUserId = userId
+    async authenticate() {
+      try {
+        const res = await window.fetch('/api/current-user', {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        const result = await res.json()
+        this.currentUserId = result.id
+      } catch (err) {
+        this.currentUserId = undefined
+      }
+    },
+    async logout() {
+      await window.fetch('/api/logout', {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
     },
     async createUser(user: NewUser) {
       const body = JSON.stringify({ ...user })
-      await window.fetch('http://localhost:8000/user', {
+      await window.fetch('http://localhost:8000/user', {  
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

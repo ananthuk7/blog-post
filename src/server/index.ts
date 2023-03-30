@@ -14,8 +14,16 @@ app.use(bodyParser.json())
 const JWT_TOKEN = 'jwt-secret'
 const COOKIE = 'cookie-code'
 
+function authenticate(id: string, req: Request, res: Response) {
+  const token = jwt.sign({ id }, JWT_TOKEN, {
+    issuer: 'ananthu-krish',
+    expiresIn: '30 days'
+  })
+  res.cookie(COOKIE, token, { httpOnly: true })
+}
+
 const postList = [today, thisWeek, thisMonth]
-const allUser = []
+const allUser: User[] = []
 
 app.get('/post', (req, res) => {
   res.json(postList)
@@ -24,11 +32,22 @@ app.get('/post', (req, res) => {
 app.get('/current-user', (req, res) => {
   try {
     const token = req.cookies[COOKIE]
-    const result = jwt.verify(token, JWT_TOKEN) as { id: string }
-    res.json({ id: result.id })
+    const result = jwt.verify(token, JWT_TOKEN)
+    res.json(result)
   } catch (e) {
-    res.status(404).end()
+    if (e instanceof jwt.JsonWebTokenError) {
+      res.status(401).json({ message: 'Invalid token' })
+    } else if (e instanceof jwt.TokenExpiredError) {
+      res.status(401).json({ message: 'Token expired' })
+    } else {
+      res.status(500).json({ message: 'Internal server error' })
+    }
   }
+})
+
+app.get('/logout', (req, res) => {
+  res.cookie(COOKIE, '', { httpOnly: true })
+  res.status(200).end()
 })
 
 app.post<{}, {}, Post>('/post', (req, res) => {
@@ -45,13 +64,15 @@ app.post<{}, {}, User>('/user', (req, res) => {
   res.json(rest)
 })
 
-function authenticate(id: string, req: Request, res: Response) {
-  const token = jwt.sign({ id }, JWT_TOKEN, {
-    issuer: 'ananthu-krish',
-    expiresIn: '30 days'
-  })
-  res.cookie(COOKIE, token, { httpOnly: true })
-}
+app.post<{}, {}, { username: string; password: string }>('/login', (req, res) => {
+  const targetUser = allUser.find((user) => user.username === req.body.username)
+  if (!targetUser || targetUser.password !== req.body.password) {
+    res.status(401).end()
+  } else {
+    authenticate(targetUser.id, req, res)
+    res.status(200).end()
+  }
+})
 
 app.listen(8000, () => {
   console.log('listen at 8000')

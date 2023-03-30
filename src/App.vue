@@ -11,7 +11,7 @@ const user = userStore()
 const modalStyle = computed(() => {
   return { display: modal.show.value ? 'block' : 'none ' }
 })
-user.authentication()
+user.authenticate()
 </script>
 
 <template>
