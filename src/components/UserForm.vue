@@ -41,8 +41,8 @@ function handleSubmit() {
 </script>
 <template>
   <form action="" class="form" @submit.prevent="handleSubmit">
-    <FormInput v-model="username" name="User Name" :status="usernameStatus" />
-    <FormInput v-model="password" name="Password" :status="passwordStatus" />
+    <FormInput type="text" v-model="username" name="User Name" :status="usernameStatus" />
+    <FormInput type="password" v-model="password" name="Password" :status="passwordStatus" />
     <p class="is-danger help">
       {{ error }}
     </p>

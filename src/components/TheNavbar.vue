@@ -10,11 +10,11 @@ const user = userStore()
     <div class="navbar-end">
       <div class="buttons" v-if="user.currentUserId">
         <RouterLink to="/post/new" class="button">New Post</RouterLink>
-        <button class="button is-primary" @click="user.logout()">Logout</button>
+        <button id="logout" class="button is-primary" @click="user.logout()">Logout</button>
       </div>
       <div class="buttons" v-else>
-        <button class="button is-primary" @click="modal.showModal('Signup')">Sign Up</button>
-        <button class="button is-primary" @click="modal.showModal('Signin')">Sign in</button>
+        <button id="signUp" class="button is-primary" @click="modal.showModal('Signup')">Sign Up</button>
+        <button data-id="signin" class="button is-primary" @click="modal.showModal('Signin')">Sign in</button>
       </div>
     </div>
   </div>
