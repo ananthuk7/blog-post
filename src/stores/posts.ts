@@ -24,7 +24,7 @@ export const usePostStore = defineStore('post', {
       this.selectedPeriod = period
     },
     async fetchPosts() {
-      const res = await window.fetch('api/post')
+      const res = await window.fetch('/api/post')
       const data = (await res.json()) as Post[]
       await delay()
 
@@ -40,7 +40,7 @@ export const usePostStore = defineStore('post', {
     },
     async savePost(post: Post) {
       const body = JSON.stringify({ ...post })
-      await window.fetch('http://localhost:8000/post', {
+      await window.fetch('/api/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ export const usePostStore = defineStore('post', {
     },
     async editPost(post: Post) {
       const body = JSON.stringify({ ...post })
-      await window.fetch('http://localhost:8000/post', {
+      await window.fetch('/api/post', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

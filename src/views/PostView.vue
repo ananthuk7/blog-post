@@ -7,10 +7,16 @@ import { DateTime } from 'luxon'
 import { useRouter } from 'vue-router'
 
 const postStore = usePostStore()
+const user = userStore()
 const router = useRouter()
+
+if (!user.currentUserId) {
+  throw new Error('please login')
+}
 
 const post: TimeLinePost = {
   id: '-1',
+  authorId: user.currentUserId,
   title: 'title',
   created: DateTime.now(),
   markup: '##Title',

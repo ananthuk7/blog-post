@@ -14,12 +14,12 @@ app.use(bodyParser.json())
 const JWT_TOKEN = 'jwt-secret'
 const COOKIE = 'cookie-code'
 
-function authenticate(id: string, req: Request, res: Response) {
+function authenticate(id: string) {
   const token = jwt.sign({ id }, JWT_TOKEN, {
     issuer: 'ananthu-krish',
     expiresIn: '30 days'
   })
-  res.cookie(COOKIE, token, { httpOnly: true })
+  return token
 }
 
 const postList = [today, thisWeek, thisMonth]
@@ -29,11 +29,11 @@ app.get('/post', (req, res) => {
   res.json(postList)
 })
 
-app.get('/current-user', (req, res) => {
+app.get('/current-user/:token', (req, res) => {
   try {
-    const token = req.cookies[COOKIE]
-    const result = jwt.verify(token, JWT_TOKEN)
-    res.json(result)
+    const token = req.params.token
+    const result = jwt.verify(token, JWT_TOKEN) as { id: string }
+    res.json({ id: result.id })
   } catch (e) {
     if (e instanceof jwt.JsonWebTokenError) {
       res.status(401).json({ message: 'Invalid token' })
@@ -68,9 +68,9 @@ app.put<{}, {}, Post>('/post', (req, res) => {
 app.post<{}, {}, User>('/user', (req, res) => {
   const user = { ...req.body, id: (Math.random() * 100000).toFixed() }
   allUser.push(user)
-  authenticate(user.id, req, res)
+  const token = authenticate(user.id)
   const { password, ...rest } = user
-  res.json(rest)
+  res.json({ rest, token: token })
 })
 
 app.post<{}, {}, { username: string; password: string }>('/login', (req, res) => {
@@ -78,7 +78,7 @@ app.post<{}, {}, { username: string; password: string }>('/login', (req, res) =>
   if (!targetUser || targetUser.password !== req.body.password) {
     res.status(401).end()
   } else {
-    authenticate(targetUser.id, req, res)
+    authenticate(targetUser.id)
     res.status(200).end()
   }
 })
