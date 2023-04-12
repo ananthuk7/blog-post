@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { useModal } from '@/composables/modal'
-import { userStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const modal = useModal()
-const user = userStore()
+const userStore = useUserStore()
 
 function logout() {
-  user.logout()
+  userStore.logout()
   router.push('/')
 }
 </script>
 <template>
   <div class="navbar">
     <div class="navbar-end">
-      <div class="buttons" v-if="user.currentUserId">
+      <div class="buttons" v-if="userStore.currentUserId !== 'undefined'">
         <RouterLink to="/post/new" class="button">New Post</RouterLink>
         <button id="logout" class="button is-primary" @click="logout()">Logout</button>
       </div>

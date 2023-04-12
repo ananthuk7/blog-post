@@ -2,21 +2,21 @@
 import NewPost from '@/components/NewPost.vue'
 import type { Post, TimeLinePost } from '@/posts'
 import { usePostStore } from '@/stores/posts'
-import { userStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 import { DateTime } from 'luxon'
 import { useRouter } from 'vue-router'
 
 const postStore = usePostStore()
-const user = userStore()
+const userStore = useUserStore()
 const router = useRouter()
 
-if (!user.currentUserId) {
+if (!userStore.currentUserId) {
   throw new Error('please login')
 }
 
 const post: TimeLinePost = {
   id: '-1',
-  authorId: user.currentUserId,
+  authorId: userStore.currentUserId,
   title: 'title',
   created: DateTime.now(),
   markup: '##Title',

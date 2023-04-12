@@ -1,4 +1,4 @@
-import { userStore } from './../stores/user'
+import { useUserStore } from './../stores/user'
 import { createRouter, createWebHistory } from 'vue-router'
 export const routes = [
   {
@@ -11,8 +11,8 @@ export const routes = [
     name: 'post',
     component: () => import('../views/PostView.vue'),
     beforeEnter: () => {
-      const user = userStore()
-      if (!user.currentUserId) {
+      const userStore = useUserStore()
+      if (!userStore.currentUserId) {
         return {
           path: '/'
         }
@@ -24,8 +24,8 @@ export const routes = [
     name: 'showpost',
     component: () => import('../views/ShowPost.vue'),
     beforeEnter: () => {
-      const user = userStore()
-      if (!user.currentUserId) {
+      const userStore = useUserStore()
+      if (!userStore.currentUserId) {
         return {
           path: '/'
         }
@@ -37,8 +37,8 @@ export const routes = [
     name: 'editpost',
     component: () => import('../views/EditPost.vue'),
     beforeEnter: () => {
-      const user = userStore()
-      if (!user.currentUserId) {
+      const userStore = useUserStore()
+      if (!userStore.currentUserId) {
         return {
           path: '/'
         }

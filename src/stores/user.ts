@@ -1,4 +1,3 @@
-import type { User } from './../user'
 import { defineStore } from 'pinia'
 import type { NewUser } from '@/user'
 
@@ -7,7 +6,7 @@ interface UserState {
   token?: string
 }
 
-export const userStore = defineStore('user', {
+export const useUserStore = defineStore('user', {
   state: (): UserState => ({
     currentUserId: undefined,
     token: undefined
@@ -48,5 +47,6 @@ export const userStore = defineStore('user', {
       this.token = res.token
       this.authenticate()
     }
-  }
+  },
+  persist: true
 })

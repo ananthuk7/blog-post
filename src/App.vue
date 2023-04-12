@@ -3,15 +3,15 @@ import { RouterView } from 'vue-router'
 import Navbar from './components/TheNavbar.vue'
 import { useModal } from '@/composables/modal'
 import { computed } from 'vue'
-import { userStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 
 const modal = useModal()
-const user = userStore()
+const userStore = useUserStore()
 
 const modalStyle = computed(() => {
   return { display: modal.show.value ? 'block' : 'none ' }
 })
-user.authenticate()
+userStore.authenticate()
 </script>
 
 <template>

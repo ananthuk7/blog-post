@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePostStore } from '@/stores/posts'
 import { useRoute } from 'vue-router'
-import { userStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 import { computed } from 'vue'
 
 const route = useRoute()
@@ -12,13 +12,13 @@ if (!post) {
   throw new Error('no post found')
 }
 
-const user = userStore()
+const userStore = useUserStore()
 
 const canEdit = computed(() => {
-  if (!user.currentUserId) {
+  if (!userStore.currentUserId) {
     return false
   }
-  if (user.currentUserId !== post.authorId) {
+  if (userStore.currentUserId !== post.authorId) {
     return false
   }
   return true

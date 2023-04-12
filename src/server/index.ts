@@ -1,5 +1,5 @@
 import type { User } from './../user'
-import express, { type Request, type Response } from 'express'
+import express from 'express'
 import cors from 'cors'
 import { thisMonth, thisWeek, today, type Post } from '../posts'
 import bodyParser from 'body-parser'

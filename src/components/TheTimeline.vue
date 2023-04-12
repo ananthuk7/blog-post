@@ -6,6 +6,9 @@ const postStore = usePostStore()
 await postStore.fetchPosts()
 </script>
 <template>
+  <div class="has-background-primary event-border">
+    <p class="has-text-white p-2">post for {{ postStore.selectedPeriod }}</p>
+  </div>
   <nav class="is-primary panel">
     <span class="panel-tabs">
       <a
@@ -21,4 +24,9 @@ await postStore.fetchPosts()
   </nav>
 </template>
 
-<style scoped></style>
+<style scoped>
+.event-border {
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}
+</style>
