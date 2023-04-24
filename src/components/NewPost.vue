@@ -78,6 +78,10 @@ async function handleClick() {
     created:
       typeof props.post.created == 'string' ? props.post.created : props.post.created.toISO(),
     title: title.value,
+    last_updated:
+      typeof props.post.last_updated == 'string'
+        ? props.post.last_updated
+        : props.post.last_updated!.toISO(),
     markup: content.value,
     html: html.value
   }

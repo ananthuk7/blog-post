@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useModal } from '@/composables/modal'
-import { userStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 import type { NewUser } from '@/user'
 import { ref } from 'vue'
 import UserForm from './UserForm.vue'
 
 const modal = useModal()
-const user = userStore()
+const user = useUserStore()
 const error = ref()
 
 async function handleSignIn(newuser: NewUser) {

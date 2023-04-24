@@ -15,7 +15,7 @@ function logout() {
 <template>
   <div class="navbar">
     <div class="navbar-end">
-      <div class="buttons" v-if="userStore.currentUserId !== 'undefined'">
+      <div class="buttons" v-if="userStore.currentUserId !== undefined">
         <RouterLink to="/post/new" class="button">New Post</RouterLink>
         <button id="logout" class="button is-primary" @click="logout()">Logout</button>
       </div>

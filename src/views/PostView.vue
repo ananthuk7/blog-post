@@ -20,7 +20,8 @@ const post: TimeLinePost = {
   title: 'title',
   created: DateTime.now(),
   markup: '##Title',
-  html: ''
+  html: '',
+  last_updated: undefined
 }
 
 function handleSavePost(post: Post) {

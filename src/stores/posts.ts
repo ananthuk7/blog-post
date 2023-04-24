@@ -67,7 +67,11 @@ export const usePostStore = defineStore('post', {
           if (!post) {
             throw new Error(`there is no id with ${id} for the post`)
           }
-          return { ...post, created: DateTime.fromISO(post.created) }
+          return {
+            ...post,
+            created: DateTime.fromISO(post.created),
+            last_updated: DateTime.fromISO(post.last_updated)
+          }
         })
         .filter((post) => {
           if (state.selectedPeriod == 'Today') {

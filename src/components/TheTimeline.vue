@@ -7,7 +7,7 @@ await postStore.fetchPosts()
 </script>
 <template>
   <div class="has-background-primary event-border">
-    <p class="has-text-white p-2">post for {{ postStore.selectedPeriod }}</p>
+    <p class="has-text-white p-2">post for {{ postStore.selectedPeriod }} 🎉🎉🎉🎉</p>
   </div>
   <nav class="is-primary panel">
     <span class="panel-tabs">

@@ -12,6 +12,9 @@ const props = defineProps<{
   >
     <a>{{ props?.post.title }}</a>
     <div>created_on: {{ props?.post.created.toFormat('d MMM') }}</div>
+    <div v-if="props?.post.last_updated">
+      Last Updated on: {{ props?.post.last_updated.toFormat('d MMM') }}
+    </div>
   </RouterLink>
 </template>
 

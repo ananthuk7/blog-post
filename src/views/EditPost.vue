@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { usePostStore } from '@/stores/posts'
 import { useRoute, useRouter } from 'vue-router'
-import NewPost from '@/components/NewPost.vue'
+import EditPost from '@/components/NewPost.vue'
 import type { Post } from '@/posts'
-
+import { DateTime } from 'luxon'
 
 const route = useRoute()
 const router = useRouter()
@@ -15,9 +15,8 @@ if (!post) {
   throw new Error('no post found')
 }
 
-
-
 function handleSavePost(post: Post) {
+  post.last_updated = DateTime.now().toISO()
   postStore.editPost(post)
   router.push('/')
 }
@@ -25,7 +24,7 @@ function handleSavePost(post: Post) {
 <template>
   Edit post
   <div>
-    <NewPost :post="post" @savepost="handleSavePost" />
+    <EditPost :post="post" @savepost="handleSavePost" />
   </div>
 </template>
 <style scoped></style>
